@@ -7,19 +7,16 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { useRegister } from '../api/use-register';
+import { registerSchema } from '../schemas';
 import DottedSeprator from '@/components/dotted-seprator';
 import Link from 'next/link';
 
-const formSchema = z.object({
-    name: z.string().trim().min(2, "Require 2 charaters"),
-    email: z.string().email(),
-    password: z.string().min(8, "Minimum of 8 charecter"),
-})
-
 const SignUpCard = () => {
+    const { mutate } = useRegister();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof registerSchema>>({
+        resolver: zodResolver(registerSchema),
         defaultValues: {
             name: "",
             email: "",
@@ -27,8 +24,9 @@ const SignUpCard = () => {
         }
     });
 
-    const onSubmite = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmite = (values: z.infer<typeof registerSchema>) => {
+        // console.log(values);
+        mutate({ json: values });
     }
 
     return (
