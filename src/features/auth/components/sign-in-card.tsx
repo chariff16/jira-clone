@@ -12,10 +12,11 @@ import { DottedSeprator } from '@/components/dotted-seprator';
 import Link from 'next/link';
 import { loginSchema } from '../schemas';
 import { useLogin } from '../api/use-login';
+import { Loader } from 'lucide-react';
 
 
 const SignInCard = () => {
-    const { mutate } = useLogin();
+    const { mutate, isPending } = useLogin();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -51,6 +52,7 @@ const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type='email'
                                             placeholder='Enter Email Address'
                                         />
@@ -68,6 +70,7 @@ const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type='password'
                                             placeholder='Enter Password'
                                         />
@@ -77,8 +80,8 @@ const SignInCard = () => {
                             )
                             }
                         />
-                        <Button disabled={false} size='lg' className='w-full'>
-                            Login
+                        <Button disabled={isPending} size='lg' className='w-full'>
+                            {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Login'}
                         </Button>
                     </form>
                 </Form>
@@ -87,11 +90,11 @@ const SignInCard = () => {
                 <DottedSeprator />
             </div>
             <CardContent className='px-7 flex flex-col gap-y-4'>
-                <Button disabled={false} variant='secondary' size='lg' className='w-full' >
+                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FcGoogle className='mr-2 size-5' />
                     Login with Google
                 </Button>
-                <Button disabled={false} variant='secondary' size='lg' className='w-full' >
+                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FaGithub className='mr-2 size-5' />
                     Login with GitHub
                 </Button>
