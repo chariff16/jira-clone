@@ -2,18 +2,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCurrent } from "@/features/auth/api/use-current";
-import { useLogout } from "@/features/auth/api/use-logout";
-import { Button } from "@/components/ui/button";
+import UserButton from "@/features/auth/components/user-button";
 
 export default function Home() {
   const router = useRouter();
   const { data, isLoading } = useCurrent();
-  const { mutate } = useLogout();
 
-  const logout = () => {
-    mutate();
-    // router.push("/sign-in");
-  }
 
 
   useEffect(() => {
@@ -22,11 +16,8 @@ export default function Home() {
     }
   }, [data])
   return (
-    <div className="">
-      autherized users
-      <Button onClick={() => logout()}>
-        logout
-      </Button>
+    <div >
+      <UserButton />
     </div>
   );
 }
