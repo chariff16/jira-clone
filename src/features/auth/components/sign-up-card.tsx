@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { useRegister } from '../api/use-register';
 import { registerSchema } from '../schemas';
-import DottedSeprator from '@/components/dotted-seprator';
+import { DottedSeprator } from '@/components/dotted-seprator';
 import Link from 'next/link';
 
 const SignUpCard = () => {

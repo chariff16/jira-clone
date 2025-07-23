@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import DottedSeprator from '@/components/dotted-seprator';
+import { DottedSeprator } from '@/components/dotted-seprator';
 import Link from 'next/link';
 import { loginSchema } from '../schemas';
 import { useLogin } from '../api/use-login';
