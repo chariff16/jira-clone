@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface DottedSepratorProps {
@@ -10,7 +9,7 @@ interface DottedSepratorProps {
     direction?: "horizontal" | "vertical";
 };
 
-const DottedSeprator = ({
+export const DottedSeprator = ({
     className,
     color = "#d4d4d8",
     height = "2px",
@@ -30,7 +29,7 @@ const DottedSeprator = ({
                 style={{
                     width: isHorizontal ? "100%" : height,
                     height: isHorizontal ? height : "100%",
-                    backgroundImage: `radial-gradient(circle, ${color} 25%, trasparent 25%)`,
+                    backgroundImage: `radial-gradient(circle, ${color} 25%, transparent 25%)`,
                     backgroundSize: isHorizontal ?
                         `${parseInt(dotSize) + parseInt(gapSize)}px ${height}` :
                         `${height} ${parseInt(dotSize) + parseInt(gapSize)}px`,
@@ -41,5 +40,3 @@ const DottedSeprator = ({
         </div>
     )
 }
-
-export default DottedSeprator 

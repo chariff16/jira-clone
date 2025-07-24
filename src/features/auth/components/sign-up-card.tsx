@@ -1,3 +1,4 @@
+'use client';
 import { z } from 'zod';
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -9,11 +10,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { useRegister } from '../api/use-register';
 import { registerSchema } from '../schemas';
-import DottedSeprator from '@/components/dotted-seprator';
+import { DottedSeprator } from '@/components/dotted-seprator';
 import Link from 'next/link';
+import { Loader } from 'lucide-react';
 
 const SignUpCard = () => {
-    const { mutate } = useRegister();
+    const { mutate, isPending } = useRegister();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -55,6 +57,7 @@ const SignUpCard = () => {
                         <FormField
                             name='name'
                             control={form.control}
+                            disabled={isPending}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -72,6 +75,7 @@ const SignUpCard = () => {
                         <FormField
                             name='email'
                             control={form.control}
+                            disabled={isPending}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -89,6 +93,7 @@ const SignUpCard = () => {
                         <FormField
                             name='password'
                             control={form.control}
+                            disabled={isPending}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -103,8 +108,8 @@ const SignUpCard = () => {
                             )
                             }
                         />
-                        <Button disabled={false} size='lg' className='w-full'>
-                            Login
+                        <Button disabled={isPending} size='lg' className='w-full'>
+                            {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Register'}
                         </Button>
                     </form>
                 </Form>
@@ -113,11 +118,11 @@ const SignUpCard = () => {
                 <DottedSeprator />
             </div>
             <CardContent className='px-7 flex flex-col gap-y-4'>
-                <Button disabled={false} variant='secondary' size='lg' className='w-full' >
+                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FcGoogle className='mr-2 size-5' />
                     Login with Google
                 </Button>
-                <Button disabled={false} variant='secondary' size='lg' className='w-full' >
+                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FaGithub className='mr-2 size-5' />
                     Login with GitHub
                 </Button>
