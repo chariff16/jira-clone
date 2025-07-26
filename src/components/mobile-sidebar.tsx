@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { MenuIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger, SheetDescription } from "./ui/sheet";
 import { usePathname } from "next/navigation";
 import Sidebar from "./sidebar";
 
@@ -23,6 +23,12 @@ const MobileSidebar = () => {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0">
+                <SheetTitle className="hidden"> {/* removing error worning */}
+                    Mobile Sidebar
+                </SheetTitle>
+                <SheetDescription className="hidden"> {/* removing error worning */}
+                    Mobile Sidebar
+                </SheetDescription>
                 <Sidebar />
             </SheetContent>
         </Sheet>
