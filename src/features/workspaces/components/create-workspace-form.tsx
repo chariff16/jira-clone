@@ -14,6 +14,7 @@ import { ImageIcon, Loader } from "lucide-react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 
 interface CreateWorkspaceFormProp {
@@ -147,7 +148,7 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProp) => {
                         </div>
                         <DottedSeprator className="py-7" />
                         <div className="flex items-center justify-between">
-                            <Button type="button" size="lg" variant='secondary' onClick={onCancel} disabled={isPending}>
+                            <Button type="button" size="lg" variant='secondary' onClick={onCancel} disabled={isPending} className={cn(!onCancel && 'invisible')}>
                                 {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Cancel'}
                             </Button>
                             <Button type="submit" size="lg" variant='primary' disabled={isPending} >
