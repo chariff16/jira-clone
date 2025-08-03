@@ -13,6 +13,7 @@ import { useCreateWorkspace } from "../api/use-create-workspace";
 import { ImageIcon, Loader } from "lucide-react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 interface CreateWorkspaceFormProp {
@@ -21,6 +22,7 @@ interface CreateWorkspaceFormProp {
 
 const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProp) => {
 
+    const router = useRouter()
     const { mutate, isPending } = useCreateWorkspace();
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -38,8 +40,9 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProp) => {
             imageUrl: undefined // need to upgrade appwrite to pass wthe image url
         }
         mutate({ form: finalValues }, {
-            onSuccess: () => {
+            onSuccess: ({ data }) => {
                 form.reset();
+                router.push(`/workspaces/${data.$id}`);
             }
         }
         );
