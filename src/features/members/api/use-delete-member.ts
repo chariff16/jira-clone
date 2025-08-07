@@ -6,7 +6,7 @@ import { toast } from "sonner";
 type ResponseType = InferResponseType<typeof client.api.members[":memberId"]["$delete"], 200>;
 type RequestType = InferRequestType<typeof client.api.members[":memberId"]["$delete"]>;
 
-export const useDeletMember = () => {
+export const useDeleteMember = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation<
         ResponseType,
