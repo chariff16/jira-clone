@@ -17,8 +17,7 @@ import { cn } from "@/lib/utils";
 import { Project } from "../types";
 import { useUpdateProjects } from "../api/use-update-projects";
 import { useConfirm } from "@/hooks/use-confirm";
-// import { useDeletWorkspace } from "../api/use-delete-workspace";
-// import { toast } from "sonner";
+import { useDeleteProjects } from "../api/use-delete-projects";
 import { updateWorkSpaceSchema } from "@/features/workspaces/schemas";
 
 
@@ -30,12 +29,12 @@ interface EditeWorkspaceFormProp {
 
 const EditeProjectForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp) => {
 
-    const router = useRouter()
+    const router = useRouter();
     const { mutate, isPending } = useUpdateProjects();
-    // const {
-    //     mutate: deletingWorkspace,
-    //     isPending: isDeletingWorkspace
-    // } = useDeletWorkspace();
+    const {
+        mutate: deletingProject,
+        isPending: isDeletingProject
+    } = useDeleteProjects();
 
 
     const [DeleteDailog, confirmDelete] = useConfirm(
@@ -58,16 +57,15 @@ const EditeProjectForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp) =
         const ok = await confirmDelete();
         if (!ok) return;
 
-        // deletingWorkspace({
-        //     param: {
-        //         workspaceId: initialValues.$id
-        //     }
-        // }, {
-        //     onSuccess: () => {
-        //         // router.push('/');
-        //         window.location.href = '/';
-        //     }
-        // })
+        deletingProject({
+            param: {
+                projectId: initialValues.$id
+            }
+        }, {
+            onSuccess: () => {
+                window.location.href = `/workspaces/${initialValues.workspaceId}`;
+            }
+        })
     };
 
 
@@ -242,8 +240,8 @@ const EditeProjectForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp) =
                             Deleting a project is irreversible and will remove all associated Data
                         </p>
                         <DottedSeprator className="py-7" />
-                        <Button className="mt-6  w-fit ml-auto" size="sm" variant="destructive" type="button" disabled={isPending} onClick={handleDelete} >
-                            {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Delete Project'}
+                        <Button className="mt-6  w-fit ml-auto" size="sm" variant="destructive" type="button" disabled={isPending || isDeletingProject} onClick={handleDelete} >
+                            {isDeletingProject ? <Loader className='animate-spin size-4 text-black' /> : 'Delete Project'}
                         </Button>
                     </div>
                 </CardContent>

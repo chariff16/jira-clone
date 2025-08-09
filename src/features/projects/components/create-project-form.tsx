@@ -5,7 +5,7 @@ import { ImageIcon, Loader } from "lucide-react";
 import { useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/features/workspaces/hooks/workspace-id";
 import { cn } from "@/lib/utils";
 import { DottedSeprator } from "@/components/dotted-seprator";
@@ -26,7 +26,7 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
 
     const workspaceId = useWorkspaceId();
 
-    // const router = useRouter();
+    const router = useRouter();
     const { mutate, isPending } = useCreateProjects();
     const inputRef = useRef<HTMLInputElement>(null);
     const formSchema = createProjectSchema.omit({ workspaceId: true });
@@ -48,9 +48,9 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
         mutate(
             { form: finalValues },
             {
-                onSuccess: () => {
+                onSuccess: ({ data }) => {
                     form.reset();
-                    // router.push(`/workspaces/${workspaceId}/projects/${data.$id}`)
+                    router.push(`/workspaces/${workspaceId}/projects/${data.$id}`)
                 },
             }
         );
