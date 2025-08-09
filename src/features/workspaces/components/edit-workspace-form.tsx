@@ -84,12 +84,6 @@ const EditeWorkspaceForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp)
             param: {
                 workspaceId: initialValues.$id
             }
-        }, {
-            onSuccess: () => {
-                // router.push('/');
-                // window.location.href = '/';
-                router.refresh();
-            }
         })
     };
 
