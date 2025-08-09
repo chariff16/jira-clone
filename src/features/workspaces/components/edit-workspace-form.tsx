@@ -97,9 +97,8 @@ const EditeWorkspaceForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp)
             form: finalValues,
             param: { workspaceId: initialValues.$id }
         }, {
-            onSuccess: ({ data }) => {
+            onSuccess: () => {
                 form.reset();
-                router.push(`/workspaces/${data.$id}`);
             }
         }
         );
