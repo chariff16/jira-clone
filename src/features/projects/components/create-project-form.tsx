@@ -67,7 +67,7 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
         <Card className="w-full h-full border-none shadow-none">
             <CardHeader className="flex p-7">
                 <CardTitle className="text-xl font-bold">
-                    Create a new workspace
+                    Create a new project
                 </CardTitle>
             </CardHeader>
             <div className="px-7">
@@ -83,12 +83,12 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>
-                                            Workspaces Name
+                                            Project Name
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="Enter workspace name"
+                                                placeholder="Enter Project name"
                                                 disabled={isPending}
                                             />
                                         </FormControl>
@@ -124,7 +124,7 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
                                             )}
                                             <div className="flex flex-col">
                                                 <p className="text-sm">
-                                                    Wrokspace Icon
+                                                    Project Icon
                                                 </p>
                                                 <p className="text-sm text-muted-foreground">
                                                     JPG, PNG, SVG or JPEG, max 1MB
@@ -181,7 +181,7 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProp) => {
                                 {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Cancel'}
                             </Button>
                             <Button type="submit" size="lg" variant='primary' disabled={isPending} >
-                                {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Create Workspace'}
+                                {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Create Project'}
                             </Button>
                         </div>
                     </form>
