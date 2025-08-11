@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { getCurrent } from "@/features/auth/queries";
 import ProjectAvatar from "@/features/projects/components/project-avatar";
@@ -17,7 +16,7 @@ interface ProjectIdPageProps {
 const ProjectIdPage = async ({ params }: ProjectIdPageProps) => {
     const user = await getCurrent();
     if (!user) {
-        redirect('/sing-in');
+        redirect('/sign-in');
     };
 
     const initialValues = await getProject({

@@ -2,7 +2,6 @@
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-// import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/features/workspaces/hooks/workspace-id";
 import { cn } from "@/lib/utils";
 import { DottedSeprator } from "@/components/dotted-seprator";
@@ -29,8 +28,6 @@ interface CreateTaskFormProp {
 const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskFormProp) => {
 
     const workspaceId = useWorkspaceId();
-
-    // const router = useRouter();
     const { mutate, isPending } = useCreateTasks();
 
     const form = useForm<z.infer<typeof createTaskSchema>>({
@@ -46,7 +43,6 @@ const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskF
             {
                 onSuccess: () => {
                     form.reset();
-                    // router.push(`/workspaces/${workspaceId}/projects/${data.$id}`)
                     onCancel?.()
                 },
             }
