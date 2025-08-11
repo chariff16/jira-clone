@@ -14,7 +14,9 @@ const app = new Hono()
     .post(
         '/',
         sessionMiddleware,
-        zValidator('json', createTaskSchema),
+        zValidator('json', createTaskSchema.extend({
+            dueDate: z.coerce.date()
+        })),
         async (c) => {
             const user = c.get('user');
             const databases = c.get('databases');
