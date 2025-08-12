@@ -187,5 +187,41 @@ const app = new Hono()
             return c.json({ data: { ...tasks, documents: populatedTasks } });
         }
     )
+    .delete(
+        '/:taskId',
+        sessionMiddleware,
+        async (c) => {
+            const databases = c.get('databases');
+            const user = c.get('user');
+            const { taskId } = c.req.param();
+
+            const task = await databases.getDocument<Task>(
+                DATABASE_ID,
+                TASKS_ID,
+                taskId
+            );
+
+            const member = getMember({
+                databases,
+                workspaceId: task.workspaceId,
+                userId: user.$id
+            })
+
+            if (!member) return c.json({ error: 'unauthorized' }, 401);
+
+            await databases.deleteDocument(
+                DATABASE_ID,
+                TASKS_ID,
+                taskId,
+            )
+
+            return c.json({
+                data: {
+                    $id: task.$id
+                }
+            })
+
+        }
+    )
 
 export default app;
