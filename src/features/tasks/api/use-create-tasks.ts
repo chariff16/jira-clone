@@ -14,7 +14,6 @@ export const useCreateTasks = () => {
         RequestType
     >({
         mutationFn: async ({ json }) => {
-            // console.log('json', json);
             const response = await client.api.tasks["$post"]({ json });
             if (!response.ok) {
                 throw new Error("fail to create tasks");
@@ -23,7 +22,7 @@ export const useCreateTasks = () => {
         },
         onSuccess: () => {
             toast.success('Task Created');
-            queryClient.invalidateQueries({ queryKey: ["projects"] });
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
         },
         onError: () => {
             toast.error('Faild To Create task');

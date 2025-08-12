@@ -42,7 +42,7 @@ export const useGetTasks = ({ workspaceId,
             });
 
             if (!response.ok) {
-                throw new Error("fail to fetch projects");
+                throw new Error("fail to fetch Tasks");
             }
 
             const { data } = await response.json();
