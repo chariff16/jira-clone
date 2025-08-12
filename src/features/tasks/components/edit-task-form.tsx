@@ -1,8 +1,8 @@
 "use client";
+import MemberAvatar from '@/features/members/components/member-avatar';
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useWorkspaceId } from "@/features/workspaces/hooks/workspace-id";
 import { cn } from "@/lib/utils";
 import { DottedSeprator } from "@/components/dotted-seprator";
 import { Button } from "@/components/ui/button";
@@ -11,35 +11,40 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { createTaskSchema } from "../schemas";
-import { useCreateTasks } from '../api/use-create-tasks';
 import { Loader } from 'lucide-react';
 import { DatePicker } from '@/components/date-picker';
-import MemberAvatar from '@/features/members/components/member-avatar';
-import { TaskStatus } from '../types';
+import { Task, TaskStatus } from '../types';
 import ProjectAvatar from '@/features/projects/components/project-avatar';
+import { useUpdateTask } from '../api/use-update-task';
 
 
-interface CreateTaskFormProp {
+interface EditTaskFormProp {
     onCancel?: () => void;
     projectOptions: { id: string, name: string, imageUrl: string }[];
     memberOptions: { id: string, name: string }[];
+    initailValues: Task
 };
 
-const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskFormProp) => {
+const EditTaskForm = ({ onCancel, projectOptions, memberOptions, initailValues }: EditTaskFormProp) => {
 
-    const workspaceId = useWorkspaceId();
-    const { mutate, isPending } = useCreateTasks();
+    const { mutate, isPending } = useUpdateTask();
 
-    const form = useForm<z.infer<typeof createTaskSchema>>({
-        resolver: zodResolver(createTaskSchema),
+    const formSchema = createTaskSchema.omit({ workspaceId: true, description: true })
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
-            workspaceId,
+            ...initailValues,
+            dueDate: initailValues.dueDate ? new Date(initailValues.dueDate) : undefined
         },
     });
 
-    const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
         mutate(
-            { json: { ...values, workspaceId } },
+            {
+                json: values,
+                param: { taskId: initailValues.$id }
+            },
             {
                 onSuccess: () => {
                     form.reset();
@@ -53,7 +58,7 @@ const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskF
         <Card className="w-full h-full border-none shadow-none">
             <CardHeader className="flex p-7">
                 <CardTitle className="text-xl font-bold">
-                    Create a new task
+                    Edit a task
                 </CardTitle>
             </CardHeader>
             <div className="px-7">
@@ -212,7 +217,7 @@ const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskF
                                 Cancel
                             </Button>
                             <Button type="submit" size="lg" variant='primary' disabled={isPending} >
-                                {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Create Task'}
+                                {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Save Changes'}
                             </Button>
                         </div>
                     </form>
@@ -222,4 +227,4 @@ const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskF
     )
 };
 
-export default CreateTaskForm;
+export default EditTaskForm;

@@ -240,7 +240,7 @@ const EditeWorkspaceForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp)
                             <DottedSeprator className="py-7" />
                             <div className="flex items-center justify-between">
                                 <Button type="button" size="lg" variant='secondary' onClick={onCancel} disabled={isPending} className={cn(!onCancel && 'invisible')}>
-                                    {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Cancel'}
+                                    Cancel
                                 </Button>
                                 <Button type="submit" size="lg" variant='primary' disabled={isPending} >
                                     {isPending ? <Loader className='animate-spin size-4 text-black' /> : 'Save Changes'}

@@ -2,6 +2,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from 'lucide-react';
 import { useDeleteTasks } from '../api/use-delete-tasks';
 import { useConfirm } from '@/hooks/use-confirm';
+import { useRouter } from 'next/navigation';
+import { useWorkspaceId } from '@/features/workspaces/hooks/workspace-id';
+import { useEditTaskModal } from '../hooks/use-edit-task-modal';
 
 interface TaskActionProps {
     id: string;
@@ -11,6 +14,8 @@ interface TaskActionProps {
 
 
 const TaskAction = ({ id, projectId, children }: TaskActionProps) => {
+    const router = useRouter();
+    const workspaceId = useWorkspaceId();
     const { mutate, isPending } = useDeleteTasks();
     const [ConfirmDialog, confirm] = useConfirm(
         "Delete Task",
@@ -18,11 +23,21 @@ const TaskAction = ({ id, projectId, children }: TaskActionProps) => {
         'destructive'
     );
 
+    const { open } = useEditTaskModal();
+
     const onDelete = async () => {
         const ok = await confirm();
         if (!ok) return;
 
         mutate({ param: { taskId: id } })
+    };
+
+    const onOpenTask = () => {
+        router.push(`/workspaces/${workspaceId}/tasks/${id}`)
+    };
+
+    const onOpenProject = () => {
+        router.push(`/workspaces/${workspaceId}/projects/${projectId}`)
     }
 
     return (
@@ -34,21 +49,21 @@ const TaskAction = ({ id, projectId, children }: TaskActionProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end' className='w-48'>
                     <DropdownMenuItem
-                        onClick={() => { }}
+                        onClick={onOpenTask}
                         className='font-medium p-[10px]'
                     >
                         <ExternalLinkIcon className='size-4 mr-2 stroke-2' />
                         Task Details
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => { }}
+                        onClick={onOpenProject}
                         className='font-medium p-[10px]'
                     >
                         <ExternalLinkIcon className='size-4 mr-2 stroke-2' />
                         Open Project
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => { }}
+                        onClick={() => open(id)}
                         className='font-medium p-[10px]'
                     >
                         <PencilIcon className='size-4 mr-2 stroke-2' />
