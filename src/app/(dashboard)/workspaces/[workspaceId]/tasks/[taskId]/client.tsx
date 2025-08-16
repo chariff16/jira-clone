@@ -6,7 +6,7 @@ import TaskBreadcrumbs from '@/features/tasks/components/task-breadcrumbs';
 import TaskOverView from '@/features/tasks/components/task-overview';
 import { DottedSeprator } from '@/components/dotted-seprator';
 import { useGetTask } from '@/features/tasks/api/use-get-task';
-import { useTaskId } from '@/features/tasks/api/use-task-id';
+import { useTaskId } from '@/features/tasks/hooks/use-task-id';
 import { TaskDescription } from '@/features/tasks/components/task-description';
 
 const TaskIdClient = () => {
