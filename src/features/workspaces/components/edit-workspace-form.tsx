@@ -96,10 +96,6 @@ const EditeWorkspaceForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp)
         mutate({
             form: finalValues,
             param: { workspaceId: initialValues.$id }
-        }, {
-            onSuccess: () => {
-                form.reset();
-            }
         }
         );
     };
