@@ -79,10 +79,6 @@ const EditeProjectForm = ({ onCancel, initialValues }: EditeWorkspaceFormProp) =
         mutate({
             form: finalValues,
             param: { projectId: initialValues.$id }
-        }, {
-            onSuccess: () => {
-                form.reset();
-            }
         }
         );
     };

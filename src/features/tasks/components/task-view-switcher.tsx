@@ -1,4 +1,7 @@
 'use client';
+import DataCalendar from "./data-calendar";
+import DataFilters from "./data-filters";
+import DataKanban from "./data-kanban";
 import { DottedSeprator } from "@/components/dotted-seprator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,17 +10,18 @@ import { useCreateTaskModal } from "../hooks/use-create-task-modal";
 import { useGetTasks } from "../api/use-get-tasks";
 import { useWorkspaceId } from "@/features/workspaces/hooks/workspace-id";
 import { useQueryState } from "nuqs";
-import DataFilters from "./data-filters";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { DataTable } from "./data-table";
 import { columns } from './columns';
-import DataKanban from "./data-kanban";
 import { useCallback } from "react";
 import { TaskStatus } from "../types";
 import { useBulkUpdateTask } from "../api/use-bulk-update-task";
-import DataCalendar from "./data-calendar";
 
-const TaskViewSwitcher = () => {
+interface TaskViewSwitcherProp {
+    hideProjectFilter?: boolean
+}
+
+const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProp) => {
     const [view, setView] = useQueryState("task-view", {
         defaultValue: "table"
     });
@@ -53,7 +57,7 @@ const TaskViewSwitcher = () => {
                     </Button>
                 </div>
                 <DottedSeprator className="my-4" />
-                <DataFilters />
+                <DataFilters hideProjectFilter={hideProjectFilter} />
                 <DottedSeprator className="my-4" />
                 {isLoadingTasks ?
                     (
