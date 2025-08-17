@@ -6,6 +6,7 @@ import { Hono } from 'hono';
 import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
 import { createProjectSchema, updateProjectSchema } from '../schemas';
+import { Project } from '../types';
 
 const app = new Hono()
     .get(
@@ -47,7 +48,7 @@ const app = new Hono()
             const databases = c.get('databases');
             const { projectId } = c.req.param();
 
-            const project = await databases.getDocument(
+            const project = await databases.getDocument<Project>(
                 DATABASE_ID,
                 PROJECTS_ID,
                 projectId
