@@ -211,7 +211,7 @@ const app = new Hono()
 
             if (!currentMember) return c.json({ error: 'unauthorized' }, 401);
 
-            const project = await databases.getDocument(
+            const project = await databases.getDocument<Project>(
                 DATABASE_ID,
                 PROJECTS_ID,
                 task.projectId
