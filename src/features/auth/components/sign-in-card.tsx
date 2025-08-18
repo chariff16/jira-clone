@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { z } from 'zod';
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -9,10 +10,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { DottedSeprator } from '@/components/dotted-seprator';
-import Link from 'next/link';
 import { loginSchema } from '../schemas';
 import { useLogin } from '../api/use-login';
 import { Loader } from 'lucide-react';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 
 const SignInCard = () => {
@@ -27,9 +28,8 @@ const SignInCard = () => {
     });
 
     const onSubmite = (values: z.infer<typeof loginSchema>) => {
-        // console.log(values);
         mutate({ json: values });
-    }
+    };
 
     return (
         <Card className='w-full h-full md:w-[487px] border-none shadow-none '>
@@ -90,11 +90,11 @@ const SignInCard = () => {
                 <DottedSeprator />
             </div>
             <CardContent className='px-7 flex flex-col gap-y-4'>
-                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
+                <Button onClick={() => signUpWithGoogle()} disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FcGoogle className='mr-2 size-5' />
                     Login with Google
                 </Button>
-                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
+                <Button onClick={() => signUpWithGithub()} disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FaGithub className='mr-2 size-5' />
                     Login with GitHub
                 </Button>

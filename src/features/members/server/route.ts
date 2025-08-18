@@ -1,4 +1,4 @@
-import { createAdminCient } from "@/lib/appwrite";
+import { createAdminClient } from "@/lib/appwrite";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { getMember } from "../utils";
 import { DATABASE_ID, MEMBERS_ID } from "@/config";
 import { Query } from "node-appwrite";
-import { MemberRole } from "../types";
+import { Member, MemberRole } from "../types";
 
 const app = new Hono()
     .get(
@@ -14,7 +14,7 @@ const app = new Hono()
         sessionMiddleware,
         zValidator('query', z.object({ workspaceId: z.string() })),
         async (c) => {
-            const { users } = await createAdminCient();
+            const { users } = await createAdminClient();
             const databases = c.get('databases');
             const user = c.get('user');
             const { workspaceId } = c.req.valid("query");
@@ -27,7 +27,7 @@ const app = new Hono()
 
             if (!member) return c.json({ error: "Unauthrized" }, 401);
 
-            const members = await databases.listDocuments(
+            const members = await databases.listDocuments<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 [
@@ -41,7 +41,7 @@ const app = new Hono()
 
                     return {
                         ...member,
-                        name: user.name,
+                        name: user.name || user.email,
                         email: user.email
                     };
                 })
