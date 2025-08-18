@@ -16,6 +16,7 @@ import { columns } from './columns';
 import { useCallback } from "react";
 import { TaskStatus } from "../types";
 import { useBulkUpdateTask } from "../api/use-bulk-update-task";
+import { useProjectId } from "@/features/projects/hooks/use-project-id";
 
 interface TaskViewSwitcherProp {
     hideProjectFilter?: boolean
@@ -27,7 +28,14 @@ const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProp) => {
     });
     const [{ status, assigneeId, projectId, dueDate }] = useTaskFilters();
     const workspaceId = useWorkspaceId();
-    const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({ workspaceId, assigneeId, projectId, status, dueDate });
+    const parmProjectId = useProjectId();
+    const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
+        workspaceId,
+        assigneeId,
+        projectId: parmProjectId || projectId,
+        status,
+        dueDate
+    });
     const { open } = useCreateTaskModal();
     const { mutate: bulkUpdate } = useBulkUpdateTask()
 
