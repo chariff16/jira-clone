@@ -7,7 +7,7 @@ import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
 import { Task, TaskStatus } from "../types";
-import { createAdminCient } from "@/lib/appwrite";
+import { createAdminClient } from "@/lib/appwrite";
 import { Project } from "@/features/projects/types";
 
 const app = new Hono()
@@ -88,7 +88,7 @@ const app = new Hono()
             })
         ),
         async (c) => {
-            const { users } = await createAdminCient();
+            const { users } = await createAdminClient();
             const databases = c.get("databases");
             const user = c.get("user");
 
@@ -195,7 +195,7 @@ const app = new Hono()
             const currentUser = c.get('user');
             const { taskId } = c.req.param();
 
-            const { users } = await createAdminCient();
+            const { users } = await createAdminClient();
 
             const task = await databases.getDocument<Task>(
                 DATABASE_ID,
