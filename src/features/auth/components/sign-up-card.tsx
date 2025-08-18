@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { z } from 'zod';
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -11,8 +12,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { useRegister } from '../api/use-register';
 import { registerSchema } from '../schemas';
 import { DottedSeprator } from '@/components/dotted-seprator';
-import Link from 'next/link';
 import { Loader } from 'lucide-react';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 const SignUpCard = () => {
     const { mutate, isPending } = useRegister();
@@ -118,11 +119,11 @@ const SignUpCard = () => {
                 <DottedSeprator />
             </div>
             <CardContent className='px-7 flex flex-col gap-y-4'>
-                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
+                <Button onClick={() => signUpWithGoogle()} disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FcGoogle className='mr-2 size-5' />
                     Login with Google
                 </Button>
-                <Button disabled={isPending} variant='secondary' size='lg' className='w-full' >
+                <Button onClick={() => signUpWithGithub()} disabled={isPending} variant='secondary' size='lg' className='w-full' >
                     <FaGithub className='mr-2 size-5' />
                     Login with GitHub
                 </Button>
